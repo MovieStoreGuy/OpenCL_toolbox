@@ -1,0 +1,35 @@
+#!/usr/bin/env python -dOt
+'''
+    Test Build - An Opencl helper
+'''
+import os, sys
+import getopt
+try:
+    import pyopencl as cl
+except ImportError:
+    print "pyopencl is not installed"
+    sys.exit(-1)
+
+'''
+    In order to create context without user prompt,
+    it will create context on the default Opencl device
+    for the given system.
+'''
+
+os.environ["PYOPENCL_CTX"] = '0:0'
+
+if __name__ == "__main__":
+    if len(sys.argv) == 1:
+        print "Usage", sys.argv[0], "[-w] kernelfile(s)"
+    options, files  = getopt.getopt(sys.argv[1:], ':w')
+    for opt, args in options:
+        if opt == '-w':
+            os.environ["PYOPENCL_COMPILER_OUTPUT"]='1'
+    ctx = cl.create_some_context()
+    for kernel_file in files:
+        try:
+            cl.Program(ctx, open( kernel_file ,'r').read()).build()
+        except Exception as e:
+            print "Error in: ", kernel_file
+            print e
+            sys.exit(1)
