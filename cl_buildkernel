@@ -25,7 +25,11 @@ if __name__ == "__main__":
     for opt, args in options:
         if opt == '-w':
             os.environ["PYOPENCL_COMPILER_OUTPUT"]='1'
-    ctx = cl.create_some_context()
+    try:
+        ctx = cl.create_some_context()
+    except cl.Error as e:
+        print "Error is: ", e
+        sys.exit(1);
     for kernel_file in files:
         try:
             cl.Program(ctx, open( kernel_file ,'r').read()).build()
