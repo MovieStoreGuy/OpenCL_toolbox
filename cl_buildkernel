@@ -44,7 +44,7 @@ if __name__ == "__main__":
         ctx = cl.create_some_context()
     except cl.Error as e:
         print "Error is: ", e
-        sys.exit(1);
+        sys.exit(1)
     for kernel_file in files:
         try:
             cl.Program(ctx, open( kernel_file ,'r').read()).build()
