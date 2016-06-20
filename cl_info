@@ -1,9 +1,17 @@
 #!/usr/bin/env python -dOt
+import sys
 try:
     import pyopencl as cl
 except ImportError:
     print "pyopencl is not installed"
     sys.exit(-1)
+
+'''
+    cl_info - pyopencl information script
+
+    This script will list all the opencl platforms
+    and devices that are avaliable to be used.
+'''
 
 if __name__ == "__main__":
     for platform in cl.get_platforms():
@@ -17,7 +25,6 @@ if __name__ == "__main__":
             print 'Device name: ', dev.name
             print 'Device vendor: ', dev.vendor
             print 'Device Speed: ', str(dev.max_clock_frequency), ' Mhz'
-
             flags = [('Version', dev.version),
                  ('Type', cl.device_type.to_string(dev.type)),
                  ('Memory (global)', str(dev.global_mem_size)),
