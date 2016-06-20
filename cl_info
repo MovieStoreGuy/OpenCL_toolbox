@@ -1,0 +1,35 @@
+#!/usr/bin/env python -dOt
+try:
+    import pyopencl as cl
+except ImportError:
+    print "pyopencl is not installed"
+    sys.exit(-1)
+
+if __name__ == "__main__":
+    for platform in cl.get_platforms():
+        print '=============== Platform ================'
+        print "Platform name: ", platform.name
+        print "Platform version: ", platform.version
+        print "Platform profile: ", platform.profile
+
+        for dev in platform.get_devices():
+            print '================ Device  ================'
+            print 'Device name: ', dev.name
+            print 'Device vendor: ', dev.vendor
+            print 'Device Speed: ', str(dev.max_clock_frequency), ' Mhz'
+
+            flags = [('Version', dev.version),
+                 ('Type', cl.device_type.to_string(dev.type)),
+                 ('Memory (global)', str(dev.global_mem_size)),
+                 ('Memory (local)', str(dev.local_mem_size)),
+                 ('Address bits', str(dev.address_bits)),
+                 ('Max work item dims', str(dev.max_work_item_dimensions)),
+                 ('Max work group size', str(dev.max_work_group_size)),
+                 ('Max compute units', str(dev.max_compute_units)),
+                 ('Driver version', dev.driver_version),
+                 ('Image support', str(bool(dev.image_support))),
+                 ('Little endian', str(bool(dev.endian_little))),
+                 ('Device available', str(bool(dev.available))),
+                 ('Compiler available', str(bool(dev.compiler_available)))]
+            for description, val in flags:
+                print description, ":", val
