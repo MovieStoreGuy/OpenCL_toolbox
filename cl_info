@@ -1,17 +1,28 @@
 #!/usr/bin/env python -dOt
+'''
+OpenCL Toolbox - Bundle of scripts to make OpenCL easier.
+Copyright (C) 2016  Sean ZO Marciniak
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+'''
 import sys
 try:
     import pyopencl as cl
 except ImportError:
     print "pyopencl is not installed"
     sys.exit(-1)
-
-'''
-    cl_info - pyopencl information script
-
-    This script will list all the opencl platforms
-    and devices that are avaliable to be used.
-'''
 
 if __name__ == "__main__":
     for platform in cl.get_platforms():
