@@ -34,19 +34,20 @@ except ImportError:
 os.environ["PYOPENCL_CTX"] = '0:0'
 
 if __name__ == "__main__":
-    if len(sys.argv) == 1:
-        print "Usage", sys.argv[0], "[-w] kernelfile(s)"
     options, files  = getopt.getopt(sys.argv[1:], ':w')
     for opt, args in options:
         if opt == '-w':
-            os.environ["PYOPENCL_COMPILER_OUTPUT"]='1'
+            os.environ["PYOPENCL_COMPILER_OUTPUT"] = '1'
     try:
         ctx = cl.create_some_context()
     except cl.Error as e:
         print "Error is: ", e
         sys.exit(1)
+    if len(files) == 0:
+        print "Usage: {} [-w] file(s) ...".format(sys.argv[0])
+        sys.exit(1)
     for kernel_file in files:
         try:
             cl.Program(ctx, open( kernel_file ,'r').read()).build()
-        except Exception as e:
+        except (cl.Error, RuntimeError, IOError) as e:
             print kernel_file , e
